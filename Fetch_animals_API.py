@@ -82,6 +82,9 @@ def get_animal_data(animal_data):
     Returns:
         str: The HTML representation of the animal data.
     """
+    if not animal_data:
+        return '<h2>No data found for the animal name input.</h2>'
+
     output = ''
     for animal in animal_data:
         output += serialize_animal(animal)
