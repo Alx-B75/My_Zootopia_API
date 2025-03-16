@@ -2,6 +2,17 @@ import json
 import os
 import requests
 
+
+def get_user_input():
+    """
+    Get user input for the animal name.
+
+    Returns:
+        str: The animal name.
+    """
+    name = input('Enter the name of the animal you want to search for: ')
+    return name
+
 def load_data(name):
     """
     Load JSON data from file.
@@ -14,7 +25,7 @@ def load_data(name):
     """
     url = 'https://api.api-ninjas.com/v1/animals'
     headers = {'X-Api-Key': 'Kgvl3+TJa+zpvuyxrX8gxA==wWQrcPQE7PN2LI9u'}
-    params = {'name': 'fox'}
+    params = {'name': {name}}
     response = requests.get(url, headers=headers,params=params)
 
     if response.status_code == 200:
@@ -97,7 +108,8 @@ def main():
     """
     Main function to gen animals HTML.
     """
-    animals_data = load_data('animals_data.json')
+    name_to_search = get_user_input()
+    animals_data = load_data(name_to_search)
     page_template = load_template()
     updated_page = replace_data(animals_data, page_template)
     with open('animals.html', 'w') as file:
