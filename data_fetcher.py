@@ -2,6 +2,8 @@ import json
 import os
 import requests
 
+API_KEY = 'Kgvl3+TJa+zpvuyxrX8gxA==wWQrcPQE7PN2LI9u'
+
 def fetch_data(animal_name):
     """
      Fetches the animals data for the animal 'animal_name'.
@@ -20,7 +22,7 @@ def fetch_data(animal_name):
      },
      """
     url = 'https://api.api-ninjas.com/v1/animals'
-    headers = {'X-Api-Key': 'Kgvl3+TJa+zpvuyxrX8gxA==wWQrcPQE7PN2LI9u'}
+    headers = {'X-Api-Key': API_KEY }
     params = {'name': {animal_name}}
     response = requests.get(url, headers=headers, params=params)
 
