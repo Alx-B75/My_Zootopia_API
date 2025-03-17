@@ -1,4 +1,5 @@
 import data_fetcher
+import json
 
 
 def load_data(file_path):
