@@ -1,19 +1,10 @@
 import json
 import os
-import requests
+
+import data_fetcher
 
 
-def get_user_input():
-    """
-    Get user input for the animal name.
-
-    Returns:
-        str: The animal name.
-    """
-    name = input('Enter the name of the animal you want to search for: ')
-    return name
-
-def load_data(name):
+def load_data(file_path):
     """
     Load JSON data from file.
 
@@ -23,16 +14,8 @@ def load_data(name):
     Returns:
         dict: The loaded JSON data.
     """
-    url = 'https://api.api-ninjas.com/v1/animals'
-    headers = {'X-Api-Key': 'Kgvl3+TJa+zpvuyxrX8gxA==wWQrcPQE7PN2LI9u'}
-    params = {'name': {name}}
-    response = requests.get(url, headers=headers,params=params)
-
-    if response.status_code == 200:
-        animal_data =response.json()
-        return animal_data
-    else:
-        print(f'Error: {response.status_code} - {response.text}')
+    with open(file_path, 'r') as file:
+        return json.load(file)
     
 
 def load_template():
@@ -82,9 +65,6 @@ def get_animal_data(animal_data):
     Returns:
         str: The HTML representation of the animal data.
     """
-    if not animal_data:
-        return '<h2>No data found for the animal name input.</h2>'
-
     output = ''
     for animal in animal_data:
         output += serialize_animal(animal)
@@ -111,8 +91,8 @@ def main():
     """
     Main function to gen animals HTML.
     """
-    name_to_search = get_user_input()
-    animals_data = load_data(name_to_search)
+    animal_name = input("Please enter an animal to search for: ")
+    animals_data = data_fetcher.fetch_data(animal_name)
     page_template = load_template()
     updated_page = replace_data(animals_data, page_template)
     with open('animals.html', 'w') as file:
