@@ -12,7 +12,7 @@ def load_data(file_path):
     Returns:
         dict: The loaded JSON data.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         return json.load(file)
     
 
@@ -23,7 +23,7 @@ def load_template():
     Returns:
         str: The content of the HTML template.
     """
-    with open('animals_template.html', 'r') as file:
+    with open('animals_template.html', 'r', encoding='utf-8') as file:
         page_data = file.read()
         return page_data
 
@@ -84,6 +84,17 @@ def replace_data(animals_data, page_template):
     page_template = page_template.replace('__REPLACE_ANIMALS_INFO__', new_data)
     return page_template
 
+def save_html_file(file_name, content):
+    """
+    Save the given content to an HTML file.
+
+    Args:
+        file_name (str): The name of the HTML file to save.
+        content (str): The HTML content to write to the file.
+    """
+    with open(file_name, 'w', encoding='utf-8') as file:
+        file.write(content)
+
 
 def main():
     """
@@ -93,8 +104,7 @@ def main():
     animals_data = data_fetcher.fetch_data(animal_name)
     page_template = load_template()
     updated_page = replace_data(animals_data, page_template)
-    with open('animals.html', 'w') as file:
-        file.write(updated_page)
+    save_html_file('animals.html', updated_page)
 
 if __name__ == '__main__':
     main()
